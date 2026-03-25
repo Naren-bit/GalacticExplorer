@@ -1,0 +1,204 @@
+/* ===========================================
+   Galactic Explorer - Core Styles
+   Tailwind CSS + Custom Glassmorphism
+   =========================================== */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===========================================
+   Base Styles - Accessibility First
+   =========================================== */
+@layer base {
+  html {
+    font-size: 18px;
+    /* Larger base font for readability */
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-space-900 text-white font-body antialiased;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Focus states for accessibility */
+  *:focus-visible {
+    @apply outline-none ring-4 ring-cosmic-violet ring-offset-2 ring-offset-space-900;
+    border-radius: 0.5rem;
+  }
+
+  /* Accessible headings */
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display font-bold tracking-tight;
+  }
+}
+
+/* ===========================================
+   Glassmorphism Components
+   =========================================== */
+@layer components {
+
+  /* Main glass card effect */
+  .glass {
+    background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.1) 0%,
+        rgba(255, 255, 255, 0.05) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  /* Stronger glass effect for modals */
+  .glass-strong {
+    background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.15) 0%,
+        rgba(255, 255, 255, 0.08) 100%);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow:
+      0 25px 50px rgba(0, 0, 0, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  }
+
+  /* Accessible button styles - large touch targets */
+  .btn-primary {
+    @apply px-8 py-4 rounded-2xl font-display font-semibold text-lg;
+    @apply bg-gradient-to-r from-cosmic-purple to-cosmic-indigo;
+    @apply hover:from-cosmic-violet hover:to-cosmic-purple;
+    @apply transition-all duration-300 ease-out;
+    @apply focus-visible:ring-4 focus-visible:ring-cosmic-violet;
+    min-height: 56px;
+    /* Minimum touch target size */
+    min-width: 120px;
+  }
+
+  .btn-secondary {
+    @apply px-6 py-3 rounded-xl font-display font-medium;
+    @apply glass hover:bg-glass-medium;
+    @apply transition-all duration-300 ease-out;
+    min-height: 48px;
+  }
+
+  /* Gradient text effect */
+  .gradient-text {
+    @apply bg-gradient-to-r from-cosmic-cyan via-cosmic-blue to-cosmic-purple;
+    @apply bg-clip-text text-transparent;
+  }
+}
+
+/* ===========================================
+   Star Field Animation Styles
+   =========================================== */
+@layer utilities {
+  .stars-container {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .star {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle 3s ease-in-out infinite;
+  }
+
+  .star-small {
+    width: 2px;
+    height: 2px;
+    opacity: 0.6;
+  }
+
+  .star-large {
+    width: 4px;
+    height: 4px;
+    box-shadow: 0 0 6px 2px rgba(255, 255, 255, 0.3);
+  }
+
+  /* Deep space gradient background */
+  .space-gradient {
+    background: radial-gradient(ellipse at center bottom,
+        #1a1a4a 0%,
+        #0a0a1a 50%,
+        #050510 100%);
+  }
+}
+
+/* ===========================================
+   Custom Scrollbar - Subtle & Accessible
+   =========================================== */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.4);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 92, 246, 0.6);
+}
+
+/* ===========================================
+   Accessibility - Reduced Motion
+   =========================================== */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ===========================================
+   Sensory Mode - Reduced stimulation
+   Activated via toggle in navbar
+   =========================================== */
+body.sensory-mode {
+  /* Reduce color intensity */
+  filter: brightness(0.9) saturate(0.85);
+}
+
+body.sensory-mode .stars-container {
+  /* Hide animated background in sensory mode */
+  display: none;
+}
+
+body.sensory-mode .nebula,
+body.sensory-mode .shooting-star,
+body.sensory-mode .particle {
+  display: none !important;
+}
+
+body.sensory-mode * {
+  /* Stop all animations */
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Keep essential transitions */
+body.sensory-mode button,
+body.sensory-mode a {
+  transition: background-color 0.2s ease !important;
+}
